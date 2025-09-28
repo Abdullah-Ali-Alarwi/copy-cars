@@ -1,9 +1,8 @@
 import { create } from "zustand";
 import { Cars as RawCars } from "@/db/cars";
 
-// Ensure all cars have the required 'bodyType' property
 const Cars = RawCars.map(car => ({
-  bodyType: "", // Provide a default or map from another property if available
+  bodyType: "",
   ...car,
 }));
 
@@ -37,6 +36,8 @@ interface CarStore {
   driveTypes: string[];
   cylinders: number[];
 
+  sortOption: string;
+
   maxPrice: number | null;
   yearRange: [number, number];
   maxMileage: number | null;
@@ -51,6 +52,9 @@ interface CarStore {
   setFuelTypes: (fuelTypes: string[]) => void;
   setDriveTypes: (driveTypes: string[]) => void;
   setCylinders: (cylinders: number[]) => void;
+
+  setSortOption: (option: string) => void;
+  sortCars: () => void;
 
   setMaxPrice: (price: number | null) => void;
   setYearRange: (range: [number, number]) => void;
@@ -74,6 +78,8 @@ export const useCarStore = create<CarStore>((set, get) => ({
   driveTypes: [],
   cylinders: [],
 
+  sortOption: "1",
+
   maxPrice: null,
   yearRange: [1920, new Date().getFullYear()],
   maxMileage: null,
@@ -88,6 +94,30 @@ export const useCarStore = create<CarStore>((set, get) => ({
   setFuelTypes: (fuelTypes) => set({ fuelTypes }),
   setDriveTypes: (driveTypes) => set({ driveTypes }),
   setCylinders: (cylinders) => set({ cylinders }),
+
+  setSortOption: (option) => set({ sortOption: option }),
+  sortCars: () => {
+    const { cars, sortOption } = get();
+
+const sortedCars = [...cars];
+
+    switch (sortOption) {
+      case "1": // Price Low to High
+        sortedCars.sort((a, b) => a.price - b.price);
+        break;
+      case "2": // Mileage Low to High
+        sortedCars.sort((a, b) => a.mileage - b.mileage);
+        break;
+      case "3": // Price High to Low
+        sortedCars.sort((a, b) => b.price - a.price);
+        break;
+      case "4": // Newest Post
+        sortedCars.sort((a, b) => b.year - a.year);
+        break;
+    }
+
+    set({ cars: sortedCars });
+  },
 
   setMaxPrice: (price) => set({ maxPrice: price }),
   setYearRange: (range) => set({ yearRange: range }),
@@ -120,6 +150,7 @@ export const useCarStore = create<CarStore>((set, get) => ({
     });
 
     set({ cars: filtered });
+    get().sortCars(); // ترتيب بعد تطبيق الفلاتر
   },
 
   resetFilters: () => {
@@ -136,7 +167,8 @@ export const useCarStore = create<CarStore>((set, get) => ({
       yearRange: [1920, new Date().getFullYear()],
       maxMileage: null,
       mpgRange: [0, 200],
-      cars: Cars
+      cars: Cars,
+      sortOption: "1"
     });
   },
 }));

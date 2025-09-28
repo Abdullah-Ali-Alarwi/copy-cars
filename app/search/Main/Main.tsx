@@ -11,14 +11,9 @@ export default function Main() {
   const cars = useCarStore((state) => state.cars);
   const allCars = useCarStore((state) => state.allCars);
   const applyFilters = useCarStore((state) => state.applyFilters);
-  const setModels = useCarStore((state) => state.setModels);
-  const setColors = useCarStore((state) => state.setColors);
-  const setTrims = useCarStore((state) => state.setTrims);
-  const setBodyTypes = useCarStore((state) => state.setBodyTypes);
-  const setTransmissions = useCarStore((state) => state.setTransmissions);
-  const setFuelTypes = useCarStore((state) => state.setFuelTypes);
-  const setDriveTypes = useCarStore((state) => state.setDriveTypes);
-  const setCylinders = useCarStore((state) => state.setCylinders);
+  const sortOption = useCarStore((state) => state.sortOption);
+  const setSortOption = useCarStore((state) => state.setSortOption);
+  const sortCars = useCarStore((state) => state.sortCars);
 
   const models = useCarStore((state) => state.models);
   const colors = useCarStore((state) => state.colors);
@@ -29,10 +24,18 @@ export default function Main() {
   const driveTypes = useCarStore((state) => state.driveTypes);
   const cylinders = useCarStore((state) => state.cylinders);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isSideOpen, setIsSideOpen] = useState(false); // ✅ حالة القائمة الجانبية
+  const setModels = useCarStore((state) => state.setModels);
+  const setColors = useCarStore((state) => state.setColors);
+  const setTrims = useCarStore((state) => state.setTrims);
+  const setBodyTypes = useCarStore((state) => state.setBodyTypes);
+  const setTransmissions = useCarStore((state) => state.setTransmissions);
+  const setFuelTypes = useCarStore((state) => state.setFuelTypes);
+  const setDriveTypes = useCarStore((state) => state.setDriveTypes);
+  const setCylinders = useCarStore((state) => state.setCylinders);
 
-  // البحث عن السيارات عند تغير النص
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSideOpen, setIsSideOpen] = useState(false);
+
   useEffect(() => {
     if (!searchTerm) {
       applyFilters();
@@ -50,40 +53,23 @@ export default function Main() {
 
       useCarStore.setState({ cars: filtered });
     }
-  }, [searchTerm, allCars, applyFilters]);
+    sortCars(); // ترتيب بعد البحث
+  }, [searchTerm, allCars, applyFilters, sortCars]);
 
-  // إزالة فلتر واحد
   const removeFilter = (filterType: string, value: string | number) => {
     switch (filterType) {
-      case "model":
-        setModels(models.filter((m) => m !== value));
-        break;
-      case "color":
-        setColors(colors.filter((c) => c !== value));
-        break;
-      case "trim":
-        setTrims(trims.filter((t) => t !== value));
-        break;
-      case "bodyType":
-        setBodyTypes(bodyTypes.filter((b) => b !== value));
-        break;
-      case "transmission":
-        setTransmissions(transmissions.filter((t) => t !== value));
-        break;
-      case "fuelType":
-        setFuelTypes(fuelTypes.filter((f) => f !== value));
-        break;
-      case "driveType":
-        setDriveTypes(driveTypes.filter((d) => d !== value));
-        break;
-      case "cylinders":
-        setCylinders(cylinders.filter((c) => c !== value));
-        break;
+      case "model": setModels(models.filter((m) => m !== value)); break;
+      case "color": setColors(colors.filter((c) => c !== value)); break;
+      case "trim": setTrims(trims.filter((t) => t !== value)); break;
+      case "bodyType": setBodyTypes(bodyTypes.filter((b) => b !== value)); break;
+      case "transmission": setTransmissions(transmissions.filter((t) => t !== value)); break;
+      case "fuelType": setFuelTypes(fuelTypes.filter((f) => f !== value)); break;
+      case "driveType": setDriveTypes(driveTypes.filter((d) => d !== value)); break;
+      case "cylinders": setCylinders(cylinders.filter((c) => c !== value)); break;
     }
     applyFilters();
   };
 
-  // مسح الكل
   const clearAll = () => {
     setModels([]);
     setColors([]);
@@ -97,7 +83,6 @@ export default function Main() {
     applyFilters();
   };
 
-  // جمع كل الفلاتر المختارة
   const selectedFilters = [
     ...models.map((m) => ({ type: "model", value: m })),
     ...colors.map((c) => ({ type: "color", value: c })),
@@ -111,7 +96,6 @@ export default function Main() {
 
   return (
     <div className="px-5">
-      {/* صندوق البحث */}
       <div className="searchBox bg-white w-full flex p-3 gap-2.5 items-center h-[49px] rounded-md shadow">
         <FaSearch className="text-[#cdcdcd] text-[20px]" />
         <input
@@ -123,29 +107,22 @@ export default function Main() {
         />
       </div>
 
-      {/* المسار (Breadcrumb) */}
       <div className="flex gap-1 my-3 text-sm">
         <p className="text-[#797979]">Home /</p>
         <p className="text-[#797979]">Used /</p>
         <p className="text-[#0a0909] font-medium">Car</p>
       </div>
 
-      {/* العنوان */}
       <p className="text-[22px] font-semibold leading-snug">
         Used 2020 BMW M2 Coupe 2D in Orange, CA
       </p>
 
-      {/* الفلاتر + الترتيب */}
-      <div className="flex justify-between items-center my-5 flex-wrap gap-3">
-        {/* الفلاتر */}
+      <div className="flex justify-between items-center my-5 flex-row flex-wrap gap-3">
         <div className="flex gap-2 flex-wrap items-center">
           <p className="font-medium text-[12px]">Selected Filters:</p>
 
           {selectedFilters.map((filter, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-1 bg-[#323348] text-white text-[12px] px-[8px] py-[2px] rounded-[8px]"
-            >
+            <div key={index} className="flex items-center gap-1 bg-[#323348] text-white text-[12px] px-[8px] py-[2px] rounded-[8px]">
               <span>{filter.value}</span>
               <button onClick={() => removeFilter(filter.type, filter.value)}>
                 <IoClose className="text-white text-sm hover:text-[#cdcdd0]" />
@@ -154,20 +131,21 @@ export default function Main() {
           ))}
 
           {selectedFilters.length > 0 && (
-            <button
-              onClick={clearAll}
-              className="text-sm text-[#323348] hover:underline ml-2"
-            >
+            <button onClick={clearAll} className="text-sm text-[#323348] hover:underline ml-2">
               Clear All Filters
             </button>
           )}
         </div>
 
-        {/* الترتيب وحفظ البحث */}
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 w-full lg:w-auto flex-col lg:flex-row items-center">
           <select
             id="mySelect"
-            className="border capitalize rounded-md border-[#323348] text-[14px] px-[15px] py-[8px] cursor-pointer"
+            className="border capitalize rounded-md border-[#323348] text-[14px] px-[15px] py-[8px] cursor-pointer w-full lg:w-auto"
+            value={sortOption}
+            onChange={(e) => {
+              setSortOption(e.target.value);
+              sortCars();
+            }}
           >
             <option value="1">Price: Low to High</option>
             <option value="2">Mileage: Low to High</option>
@@ -175,13 +153,12 @@ export default function Main() {
             <option value="4">Newest Post</option>
           </select>
 
-          <button className="border capitalize rounded-2xl border-[#323348] text-[14px] px-[15px] py-[8px] hover:bg-[#323348] hover:text-white transition">
+          <button className="border capitalize rounded-2xl border-[#323348] text-[14px] px-[15px] py-[8px] hover:bg-[#323348] hover:text-white transition w-full lg:w-auto">
             Save Search
           </button>
 
-          {/* ✅ زر فتح القائمة الجانبية */}
           <button
-            className="sm:hidden border rounded-2xl border-[#323348] text-[14px] px-[15px] py-[8px] hover:bg-[#323348] hover:text-white transition"
+            className="sm:hidden border rounded-2xl border-[#323348] text-[14px] px-[15px] py-[8px] hover:bg-[#323348] hover:text-white transition w-full lg:w-auto"
             onClick={() => setIsSideOpen(true)}
           >
             Filters
@@ -189,7 +166,6 @@ export default function Main() {
         </div>
       </div>
 
-      {/* الكروت */}
       <div className="flex gap-3 flex-wrap">
         {cars.length > 0 ? (
           cars.map((car) => <Card key={car.id} car={car} />)
@@ -198,7 +174,6 @@ export default function Main() {
         )}
       </div>
 
-      {/* ✅ استدعاء القائمة الجانبية */}
       <PhonSide isOpen={isSideOpen} onClose={() => setIsSideOpen(false)} />
     </div>
   );

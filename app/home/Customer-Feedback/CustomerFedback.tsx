@@ -107,16 +107,17 @@ export default function CustomerFeedback() {
                 >
                   {/* الفيديو */}
                   <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] border-2 p-5 border-gray-500 rounded-[30px]">
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={item.url}
-                      title={item.name}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="rounded-lg"
-                    />
+                <iframe
+  width="100%"
+  height="100%"
+  src={`${item.url}?rel=0&modestbranding=1`}
+  title={item.name}
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+  className="rounded-lg"
+/>
+
                   </div>
 
                   {/* النص */}
