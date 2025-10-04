@@ -67,13 +67,16 @@ export default function ImageContainer() {
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
-            <Image
-              src={img}
-              alt={`Product ${index + 1}`}
-              width={760}
-              height={560}
-              className="rounded-lg object-contain w-full h-auto"
-            />
+         <Image
+  src={img}
+  alt={`Product ${index + 1}`}
+  width={760}
+  height={560}
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 760px"
+  className="rounded-lg object-contain w-full h-auto"
+/>
+
           </SwiperSlide>
         ))}
       </Swiper>
