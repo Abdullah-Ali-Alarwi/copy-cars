@@ -10,13 +10,13 @@ export default function Header() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const links = [
-    { name: "New", href: "#" },
-    { name: "Used", href: "/search" },
-    { name: "Internet", href: "/Internet" },
-    { name: "Specials", href: "#" },
-    { name: "Finance", href: "#" },
-    { name: "Service", href: "#" },
-    { name: "Parts", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "Search", href: "/search" },
+    { name: "Account", href: "/account" },
+    { name: "Details", href: "details" },
+    { name: "Favorite", href: "favorite" },
+    { name: "Login", href: "login" },
+    { name: "Signin", href: "signin" },
   ];
 
   return (
