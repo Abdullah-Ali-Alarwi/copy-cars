@@ -36,13 +36,16 @@ export default function ListPart() {
         onClick={() => setShowWishList(true)}
         className="flex h-[46px] w-[162px] items-center justify-center gap-2 border border-[#07819d] rounded-lg hover:bg-[#e0f7fa] transition px-3 mt-4 lg:mt-0"
       >
-        <Image
-          src="/images/wishlist.png"
-          alt="Wish List"
-          width={30}
-          height={30}
-          className="object-cover"
-        />
+       <Image
+  src="/images/wishlist.png"
+  alt="Wish List"
+  width={30}
+  height={30}
+  className="object-cover"
+  loading="lazy"
+  sizes="30px"
+/>
+
         <span className="text-[#07819d] font-medium">Wish List</span>
       </button>
 

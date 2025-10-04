@@ -15,12 +15,14 @@ export default function RecommendItem({
       {/* الصورة داخل إطار ثابت */}
       <div className="w-full h-[200px] relative">
         <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-cover"
-          priority
-        />
+  src={image}
+  alt={name}
+  fill
+  className="object-cover"
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, 100vw"
+/>
+
       </div>
 
       {/* النصوص */}

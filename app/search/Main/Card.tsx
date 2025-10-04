@@ -24,16 +24,19 @@ export default function Card({ car }: CardProps) {
   return (
     <div className="w-[336px] h-[397px] shadow-lg rounded-lg overflow-hidden bg-white flex flex-col">
       {/* الصورة داخل إطار ثابت */}
-      <Link href="/details">
-        <div className="w-full h-[200px] relative flex items-center justify-center bg-gray-100">
-          <Image
-            src={car.image}
-            alt={car.model}
-            fill
-            className="object-cover"
-          />
-        </div>
-      </Link>
+  <Link href="/details">
+  <div className="w-full h-[200px] relative flex items-center justify-center bg-gray-100">
+  <Image
+  src={car.image}
+  alt={car.model}
+  width={420}
+  height={200}
+  sizes="(max-width: 768px) 100vw, 420px"
+  className="object-cover"
+  loading="lazy" // تأكيد التحميل الكسول
+/>
+  </div>
+</Link>
 
       {/* الوصف */}
       <div className="p-4 flex flex-col flex-1">

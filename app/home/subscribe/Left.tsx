@@ -12,20 +12,26 @@ export default function Left() {
       {/* أزرار التحميل */}
       <div className="flex flex-wrap gap-4">
         <div className="w-[135px] h-[40px] relative">
-          <Image
-            src="/images/download-on-the-app-store.png"
-            alt="App Store"
-            fill
-            className="object-contain"
-          />
+        <Image
+  src="/images/download-on-the-app-store.png"
+  alt="App Store"
+  fill
+  className="object-contain"
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, 300px"
+/>
+
         </div>
         <div className="w-[135px] h-[40px] relative">
-          <Image
-            src="/images/get-it-on-google-play.png"
-            alt="Google Play"
-            fill
-            className="object-contain"
-          />
+        <Image
+  src="/images/get-it-on-google-play.png"
+  alt="Google Play"
+  fill
+  className="object-contain"
+  loading="lazy"
+  sizes="(max-width: 768px) 100vw, 300px"
+/>
+
         </div>
       </div>
     </div>

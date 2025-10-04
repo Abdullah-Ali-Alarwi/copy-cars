@@ -62,7 +62,14 @@ export default function ExtraColorFilter({ title, icon }: FilterSectionProps) {
         className="flex justify-between items-center w-full text-left"
       >
         <span className="flex items-center gap-2 text-gray-700 font-medium">
-          <Image src={icon} alt={title} width={32} height={20} />
+<Image
+  src={icon}
+  alt={title}
+  width={32}
+  height={20}
+  loading="lazy"
+  sizes="32px"
+/>
           {title}
         </span>
         {isOpen ? (

@@ -36,13 +36,16 @@ export default function PopularMakers() {
         {makers.map((maker) => (
           <SwiperSlide key={maker.id} className="flex justify-center">
             <div className="w-[189px] h-[140px]">
-              <Image
-                src={maker.image}
-                alt={maker.name}
-                width={189}
-                height={140}
-                className="object-contain mx-auto"
-              />
+             <Image
+  src={maker.image}
+  alt={maker.name}
+  width={189}
+  height={140}
+  className="object-contain mx-auto"
+  loading="lazy" // تحميل الصورة عند الحاجة فقط
+  sizes="(max-width: 768px) 100vw, 189px" // اختيار حجم الصورة المناسب
+/>
+
             </div>
           </SwiperSlide>
         ))}

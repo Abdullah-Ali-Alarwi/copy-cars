@@ -10,14 +10,15 @@ export default function RecommendItem({ name, description, price, image }: { nam
       </div>
       <div>
         <Link href="/details">
-        <Image
-          src={image}
-          alt={name}
-          width={1920}
-          height={1080}
-          className="w-full h-auto rounded-lg"
-          priority
-        />
+     <Image
+  src={image}
+  alt={name}
+  width={800}
+  height={450}
+  className="w-full h-auto rounded-lg"
+  loading="lazy"
+/>
+
         </Link>
       </div>
       <div className='px-3'>

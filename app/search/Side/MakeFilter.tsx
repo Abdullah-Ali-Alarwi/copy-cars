@@ -29,17 +29,12 @@ export default function MakeFilter({ title, icon }: ModelFilterProps) {
   };
 
   const handleCheck = (item: string) => {
-    let updatedItems: string[];
-
-    if (selectedItems.includes(item)) {
-      updatedItems = selectedItems.filter((i) => i !== item);
-    } else {
-      updatedItems = [...selectedItems, item];
-    }
+    const updatedItems = selectedItems.includes(item)
+      ? selectedItems.filter((i) => i !== item)
+      : [...selectedItems, item];
 
     setSelectedItems(updatedItems);
 
-    // تحديث الاستور
     setModels(updatedItems);
     applyFilters();
   };
@@ -72,27 +67,27 @@ export default function MakeFilter({ title, icon }: ModelFilterProps) {
       <div
         ref={contentRef}
         style={{
-          maxHeight: maxHeight,
+          maxHeight,
           transition: "max-height 0.4s ease",
           overflow: "hidden",
         }}
+        className="mt-3 space-y-2"
       >
-        <div className="mt-3 space-y-2">
-          {modelList.map((item) => (
-            <label
-              key={item}
-              className="flex justify-between items-center text-gray-600"
-            >
-              <span>{item}</span>
-              <input
-                type="checkbox"
-                className="w-4 h-4"
-                checked={selectedItems.includes(item)}
-                onChange={() => handleCheck(item)}
-              />
-            </label>
-          ))}
-        </div>
+        {modelList.map((item) => (
+          <label
+            key={item}
+            className={`flex justify-between items-center p-2 border rounded cursor-pointer transition-colors 
+              ${selectedItems.includes(item) ? "bg-[#f0f8ff] border-[#07819d]" : "border-gray-200 hover:border-[#07819d]"}`}
+          >
+            <span className="text-gray-700">{item}</span>
+            <input
+              type="checkbox"
+              className="w-4 h-4 accent-[#07819d]"
+              checked={selectedItems.includes(item)}
+              onChange={() => handleCheck(item)}
+            />
+          </label>
+        ))}
       </div>
     </div>
   );

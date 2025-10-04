@@ -67,11 +67,7 @@ export default function FuelTypeFilter({ title, icon, items }: FilterSectionProp
           <label
             key={item}
             className={`flex justify-between items-center gap-3 p-3 border rounded cursor-pointer transition-colors 
-              ${
-                selected === item
-                  ? "border-[#07819d] text-black"
-                  : "border-[#f1f3f3] text-gray-500 hover:border-[#07819d]"
-              }`}
+              ${selected === item ? "border-[#07819d] text-black" : "border-[#f1f3f3] text-gray-500 hover:border-[#07819d]"}`}
             onClick={() => handleSelect(item)}
           >
             <span className="text-sm font-medium">{item}</span>
