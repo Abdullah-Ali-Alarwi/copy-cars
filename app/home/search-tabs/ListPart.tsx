@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import WishListMoudle from './WishListMoudle';
 import Image from 'next/image';
+import LazyImage from '@/app/components/LazyImage';
 
 export default function ListPart() {
   const carCategories = [
@@ -36,7 +37,7 @@ export default function ListPart() {
         onClick={() => setShowWishList(true)}
         className="flex h-[46px] w-[162px] items-center justify-center gap-2 border border-[#07819d] rounded-lg hover:bg-[#e0f7fa] transition px-3 mt-4 lg:mt-0"
       >
-       <Image
+       <LazyImage
   src="/images/wishlist.png"
   alt="Wish List"
   width={30}

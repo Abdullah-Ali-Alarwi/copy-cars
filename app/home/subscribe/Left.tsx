@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import LazyImage from "@/app/components/LazyImage";
 
 export default function Left() {
   return (
@@ -23,7 +24,7 @@ export default function Left() {
 
         </div>
         <div className="w-[135px] h-[40px] relative">
-        <Image
+        <LazyImage
   src="/images/get-it-on-google-play.png"
   alt="Google Play"
   fill

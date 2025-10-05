@@ -1,3 +1,4 @@
+import LazyImage from "@/app/components/LazyImage";
 import Image from "next/image";
 import React from "react";
 
@@ -14,7 +15,7 @@ export default function RecommendItem({
     <div className="w-full lg:w-[336px] h-[397px] bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
       {/* الصورة داخل إطار ثابت */}
       <div className="w-full h-[200px] relative">
-        <Image
+        <LazyImage
   src={image}
   alt={name}
   fill

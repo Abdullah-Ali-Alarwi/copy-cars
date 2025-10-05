@@ -5,7 +5,10 @@ import React from "react";
 import { IoCall } from "react-icons/io5";
 import { BsChatLeftTextFill } from "react-icons/bs";
 import { TiDocumentText } from "react-icons/ti";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Link from "next/link";
+import LazyImage from "@/app/components/LazyImage";
+import { useFavoriteCarsStore } from "@/store/favoriteCarsStore";
 
 interface Car {
   id: number;
@@ -21,22 +24,48 @@ interface CardProps {
 }
 
 export default function Card({ car }: CardProps) {
+  const favoriteCars = useFavoriteCarsStore((state) => state.favoriteCars);
+  const addFavorite = useFavoriteCarsStore((state) => state.addFavorite);
+  const removeFavorite = useFavoriteCarsStore((state) => state.removeFavorite);
+
+  const isFavorite = favoriteCars.some((c) => c.id === car.id);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(car.id);
+    } else {
+      addFavorite(car);
+    }
+  };
+
   return (
-    <div className="w-[336px] h-[397px] shadow-lg rounded-lg overflow-hidden bg-white flex flex-col">
+    <div className="w-[336px] h-[397px] shadow-lg rounded-lg overflow-hidden bg-white flex flex-col relative">
+      {/* زر القلب */}
+      <button
+        onClick={toggleFavorite}
+        className="absolute top-2 right-2 z-10 text-2xl p-1 rounded-full transition-colors"
+      >
+        {isFavorite ? (
+          <AiFillHeart className="text-red-500" />
+        ) : (
+          <AiOutlineHeart className="text-gray-400 bg-opacity-30 rounded-full" />
+        )}
+      </button>
+
       {/* الصورة داخل إطار ثابت */}
-  <Link href="/details">
-  <div className="w-full h-[200px] relative flex items-center justify-center bg-gray-100">
-  <Image
-  src={car.image}
-  alt={car.model}
-  width={420}
-  height={200}
-  sizes="(max-width: 768px) 100vw, 420px"
-  className="object-cover"
-  loading="lazy" // تأكيد التحميل الكسول
-/>
-  </div>
-</Link>
+      <Link href="/details">
+        <div className="w-full h-[200px] relative flex items-center justify-center bg-gray-100">
+          <LazyImage
+            src={car.image}
+            alt={car.model}
+            width={420}
+            height={200}
+            sizes="(max-width: 768px) 100vw, 420px"
+            className="object-cover"
+            loading="lazy"
+          />
+        </div>
+      </Link>
 
       {/* الوصف */}
       <div className="p-4 flex flex-col flex-1">

@@ -21,7 +21,7 @@ export default function Home() {
       <GuessWork />
       <Recommended />
       <SearchTabs />
-      <CustomerFedback />
+      {/* <CustomerFedback /> */}
       <RecentTestDrives />
       <TopCities />
       <RandomAskedqQuestions />

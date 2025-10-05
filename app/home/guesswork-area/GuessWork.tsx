@@ -1,4 +1,5 @@
 "use client";
+import LazyImage from "@/app/components/LazyImage";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -34,7 +35,7 @@ export default function GuessWork() {
     <div className="flex pt-[530px] lg:pt-[200px] flex-col lg:flex-row bg-[#f0f6f7] py-10 px-5 md:px-20 items-center gap-10">
       {/* الصورة الكبيرة */}
       <div className="w-full lg:w-[50%] flex justify-center">
-     <Image
+     <LazyImage
   src="/images/guess.png"
   alt="guess"
   width={681}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import LazyImage from "@/app/components/LazyImage";
 
 export default function PopularMakers() {
   const makers = [
@@ -36,7 +37,7 @@ export default function PopularMakers() {
         {makers.map((maker) => (
           <SwiperSlide key={maker.id} className="flex justify-center">
             <div className="w-[189px] h-[140px]">
-             <Image
+             <LazyImage
   src={maker.image}
   alt={maker.name}
   width={189}

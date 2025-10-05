@@ -1,40 +1,50 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useFavoriteCarsStore } from "@/store/favoriteCarsStore"; // مخزن المفضلات
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const favoriteCars = useFavoriteCarsStore((state) => state.favoriteCars);
+  const loadFavorites = useFavoriteCarsStore((state) => state.loadFavorites);
+
+  // تحميل المفضلات عند بداية التطبيق
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
   const links = [
     { name: "Home", href: "/" },
     { name: "Search", href: "/search" },
     { name: "Account", href: "/account" },
-    { name: "Details", href: "details" },
-    { name: "Favorite", href: "favorite" },
-    { name: "Login", href: "login" },
-    { name: "Signin", href: "signin" },
+    { name: "Details", href: "/details" },
+    { name: "Favorite", href: "/favorite" },
+    { name: "Login", href: "/login" },
+    { name: "Signin", href: "/signin" },
   ];
 
   return (
     <>
-      {/* الهيدر ثابت */}
+      {/* الهيدر */}
       <nav className="fixed top-0 left-0 w-full bg-[color:var(--mainColor)] bg-opacity-50 border-b border-white z-50">
-        <div className="container mx-auto flex items-center justify-between  py-1 lg:py-4 w-[90%]">
-         
-         <Link href="/">
-          <Image
-            src="/images/logo.svg"
-            alt="Logo"
-            width={0}
-            height={0}
-            className="w-[167px] h-auto"
-          /></Link>
+        <div className="container mx-auto flex items-center justify-between py-2 lg:py-4 px-4 lg:px-0">
+          {/* شعار الموقع */}
+          <Link href="/">
+            <Image
+              src="/images/logo.svg"
+              alt="Logo"
+              width={167}
+              height={50}
+              className="w-[167px] h-auto"
+            />
+          </Link>
 
-          {/* زر المينيو للجوال */}
+          {/* زر القائمة للجوال */}
           <div className="lg:hidden flex items-center">
             <button
               onClick={toggleMenu}
@@ -61,7 +71,7 @@ export default function Header() {
           </div>
 
           {/* روابط الديسكتوب */}
-          <div className="hidden lg:flex space-x-8 items-center">
+          <div className="hidden lg:flex items-center space-x-8">
             <ul className="flex space-x-4">
               {links.map((link) => (
                 <Link
@@ -74,19 +84,25 @@ export default function Header() {
               ))}
             </ul>
 
-            <div className="img-fluid relative">
-              <Image
-                src="/images/love.svg"
-                alt="Love"
-                width={40}
-                height={40}
-                className="inline w-[40px] h-[40px]"
-              />
-              <div className="absolute top-1 left-2 -mt-3 ml-5 flex items-center justify-center rounded-md bg-red-500  px-1  h-5">
-                <span className="text-white text-sm">99</span>
-              </div>
+            {/* أيقونة المفضلات */}
+            <div className="relative">
+              <Link href="/favorite">
+                <Image
+                  src="/images/love.svg"
+                  alt="Love"
+                  width={40}
+                  height={40}
+                  className="w-[40px] h-[40px]"
+                />
+              </Link>
+              {favoriteCars.length > 0 && (
+                <div className="absolute top-0 right-0 flex items-center justify-center rounded-full bg-red-500 w-5 h-5 text-xs text-white">
+                  {favoriteCars.length}
+                </div>
+              )}
             </div>
 
+            {/* أزرار إضافية */}
             <div className="flex space-x-4">
               <button className="hover:bg-white text-white border border-white hover:text-[color:var(--mainColor)] px-4 py-2 rounded">
                 For Dealers
@@ -99,17 +115,17 @@ export default function Header() {
                   height={20}
                   className="inline mr-2"
                 />
-                For Dealers
+                Account
               </button>
             </div>
           </div>
         </div>
 
-        {/* المينيو للجوال */}
+        {/* قائمة الجوال */}
         <div
-          className={`lg:hidden overflow-hidden transition-max-height duration-500 ease-in-out ${
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isOpen ? "max-h-[90vh]" : "max-h-0"
-          } bg-[color:var(--mainColor)] bg-opacity-90 w-[90%] mx-auto mt-2 rounded-lg `}
+          } bg-[color:var(--mainColor)] bg-opacity-90 w-[90%] mx-auto mt-2 rounded-lg`}
         >
           <ul className="flex flex-col space-y-3 py-4 overflow-y-auto max-h-[80vh] px-4">
             {links.map((link) => (
@@ -123,17 +139,22 @@ export default function Header() {
               </Link>
             ))}
 
-            <div className="img-fluid w-full mt-2 flex justify-st relative">
-              <Image
-                src="/images/love.svg"
-                alt="Love"
-                width={40}
-                height={40}
-                className="inline w-[40px] h-[40px]"
-              />
-              <div className="absolute top-1 left-2 -mt-3 ml-5 flex items-center justify-center rounded-md bg-red-500  px-1  h-5">
-                <span className="text-white text-sm">99</span>
-              </div>
+            {/* أيقونة المفضلات */}
+            <div className="relative w-full flex justify-center mt-2">
+              <Link href="/favorite">
+                <Image
+                  src="/images/love.svg"
+                  alt="Love"
+                  width={40}
+                  height={40}
+                  className="w-[40px] h-[40px]"
+                />
+              </Link>
+              {favoriteCars.length > 0 && (
+                <div className="absolute top-0 right-0 flex items-center justify-center rounded-full bg-red-500 w-5 h-5 text-xs text-white">
+                  {favoriteCars.length}
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col space-y-2 mt-4">
@@ -148,14 +169,12 @@ export default function Header() {
                   height={20}
                   className="inline mr-2"
                 />
-                For Dealers
+                Account
               </button>
             </div>
           </ul>
         </div>
       </nav>
-
- 
     </>
   );
 }
