@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+
 import React from "react";
 import { IoCall } from "react-icons/io5";
 import { BsChatLeftTextFill } from "react-icons/bs";
@@ -59,9 +59,9 @@ export default function Card({ car }: CardProps) {
             src={car.image}
             alt={car.model}
             width={420}
-            height={200}
-            sizes="(max-width: 768px) 100vw, 420px"
-            className="object-cover"
+            height={189}
+        
+            className="object-cover h-[189px] "
             loading="lazy"
           />
         </div>
