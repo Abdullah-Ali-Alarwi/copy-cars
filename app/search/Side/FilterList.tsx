@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import TrimFilter from "./TrimFilter";
 import PriceFilter from "./PriceFilter";
 import MileageFilter from "./MileageFilter";

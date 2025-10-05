@@ -1,68 +1,64 @@
 "use client";
 
-
-import React from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import { IoCall } from "react-icons/io5";
-import { BsChatLeftTextFill } from "react-icons/bs";
+import { BsChatLeftTextFill, BsHeart, BsHeartFill } from "react-icons/bs";
 import { TiDocumentText } from "react-icons/ti";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Link from "next/link";
-import LazyImage from "@/app/components/LazyImage";
-import { useFavoriteCarsStore } from "@/store/favoriteCarsStore";
 
-interface Car {
-  id: number;
-  model: string;
-  color: string;
-  year: number;
-  price: number;
-  image: string;
+// تعريف نوع السيارة الكامل
+export interface Car {
+  id: number;            // معرف فريد لكل سيارة
+  model: string;         // موديل السيارة
+  color: string;         // لون السيارة
+  year: number;          // سنة الصنع
+  price: number;         // سعر السيارة
+  mileage: number;       // عدد الكيلومترات المقطوعة
+  trim: string;          // نوع الفئة
+  bodyType: string;      // نوع الجسم
+  transmission: string;  // ناقل الحركة
+  fuelType: string;      // نوع الوقود
+  driveType: string;     // نظام الدفع
+  mpgHighway: number;    // كفاءة الوقود على الطريق السريع
+  cylinders: number;     // عدد الأسطوانات
+  image: string;         // رابط صورة السيارة
 }
 
 interface CardProps {
   car: Car;
+  onFavoriteToggle?: (car: Car) => void;
+  isFavorite?: boolean;
 }
 
-export default function Card({ car }: CardProps) {
-  const favoriteCars = useFavoriteCarsStore((state) => state.favoriteCars);
-  const addFavorite = useFavoriteCarsStore((state) => state.addFavorite);
-  const removeFavorite = useFavoriteCarsStore((state) => state.removeFavorite);
-
-  const isFavorite = favoriteCars.some((c) => c.id === car.id);
+export default function Card({ car, onFavoriteToggle, isFavorite }: CardProps) {
+  const [favorite, setFavorite] = useState(isFavorite || false);
 
   const toggleFavorite = () => {
-    if (isFavorite) {
-      removeFavorite(car.id);
-    } else {
-      addFavorite(car);
+    setFavorite(!favorite);
+    if (onFavoriteToggle) {
+      onFavoriteToggle(car);
     }
   };
 
   return (
-    <div className="w-[336px] h-[397px] shadow-lg rounded-lg overflow-hidden bg-white flex flex-col relative">
+    <div className="w-full lg:w-[336px] shadow-lg rounded-lg overflow-hidden bg-white flex flex-col relative">
       {/* زر القلب */}
       <button
         onClick={toggleFavorite}
-        className="absolute top-2 right-2 z-10 text-2xl p-1 rounded-full transition-colors"
+        className="absolute top-2 right-2 z-10 text-white bg-black/40 rounded-full p-2 hover:bg-black/60"
       >
-        {isFavorite ? (
-          <AiFillHeart className="text-red-500" />
-        ) : (
-          <AiOutlineHeart className="text-gray-400 bg-opacity-30 rounded-full" />
-        )}
+        {favorite ? <BsHeartFill className="text-red-500" size={20} /> : <BsHeart size={20} />}
       </button>
 
       {/* الصورة داخل إطار ثابت */}
       <Link href="/details">
-        <div className="w-full h-[200px] relative flex items-center justify-center bg-gray-100">
-          <LazyImage
+        <div className="w-full h-[200px] relative">
+          <Image
             src={car.image}
             alt={car.model}
-            width={420}
-            height={189}
-        
-            className="object-cover h-[189px] "
-            loading="lazy"
+            fill
+            className="object-cover"
           />
         </div>
       </Link>
@@ -72,7 +68,10 @@ export default function Card({ car }: CardProps) {
         <p className="font-medium text-gray-800">
           {car.year} {car.model} - {car.color}
         </p>
-        <p className="text-sm text-gray-500">{car.price} USD</p>
+        <p className="text-sm text-gray-500">{car.mileage} mi • {car.trim}</p>
+        <p className="text-sm text-gray-500">Body: {car.bodyType}</p>
+        <p className="text-sm text-gray-500">Transmission: {car.transmission}</p>
+        <p className="text-sm text-gray-500">Fuel: {car.fuelType}</p>
 
         {/* الأزرار */}
         <div className="flex gap-2 mt-3">

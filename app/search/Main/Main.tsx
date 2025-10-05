@@ -7,6 +7,24 @@ import { IoClose } from "react-icons/io5";
 import { useCarStore } from "@/store/filterStore";
 import PhonSide from "../Side/PhonSide";
 
+// تعريف نوع السيارة
+export interface Car {
+  id: number;
+  model: string;
+  color: string;
+  year: number;
+  price: number;
+  mileage: number;
+  trim: string;
+  bodyType: string;
+  transmission: string;
+  fuelType: string;
+  driveType: string;
+  mpgHighway: number;
+  cylinders: number;
+  image: string;
+}
+
 export default function Main() {
   const cars = useCarStore((state) => state.cars);
   const allCars = useCarStore((state) => state.allCars);
@@ -36,13 +54,13 @@ export default function Main() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSideOpen, setIsSideOpen] = useState(false);
 
+  // تأثير البحث والتصفية
   useEffect(() => {
     if (!searchTerm) {
       applyFilters();
     } else {
-      const filtered = allCars.filter((car) => {
+      const filtered = allCars.filter((car: Car) => {
         const term = searchTerm.toLowerCase();
-
         return (
           (car.model?.toLowerCase() || "").includes(term) ||
           (car.trim?.toLowerCase() || "").includes(term) ||
@@ -50,22 +68,37 @@ export default function Main() {
           (car.color?.toLowerCase() || "").includes(term)
         );
       });
-
       useCarStore.setState({ cars: filtered });
     }
-    sortCars(); // ترتيب بعد البحث
+    sortCars();
   }, [searchTerm, allCars, applyFilters, sortCars]);
 
   const removeFilter = (filterType: string, value: string | number) => {
     switch (filterType) {
-      case "model": setModels(models.filter((m) => m !== value)); break;
-      case "color": setColors(colors.filter((c) => c !== value)); break;
-      case "trim": setTrims(trims.filter((t) => t !== value)); break;
-      case "bodyType": setBodyTypes(bodyTypes.filter((b) => b !== value)); break;
-      case "transmission": setTransmissions(transmissions.filter((t) => t !== value)); break;
-      case "fuelType": setFuelTypes(fuelTypes.filter((f) => f !== value)); break;
-      case "driveType": setDriveTypes(driveTypes.filter((d) => d !== value)); break;
-      case "cylinders": setCylinders(cylinders.filter((c) => c !== value)); break;
+      case "model":
+        setModels(models.filter((m) => m !== value));
+        break;
+      case "color":
+        setColors(colors.filter((c) => c !== value));
+        break;
+      case "trim":
+        setTrims(trims.filter((t) => t !== value));
+        break;
+      case "bodyType":
+        setBodyTypes(bodyTypes.filter((b) => b !== value));
+        break;
+      case "transmission":
+        setTransmissions(transmissions.filter((t) => t !== value));
+        break;
+      case "fuelType":
+        setFuelTypes(fuelTypes.filter((f) => f !== value));
+        break;
+      case "driveType":
+        setDriveTypes(driveTypes.filter((d) => d !== value));
+        break;
+      case "cylinders":
+        setCylinders(cylinders.filter((c) => c !== value));
+        break;
     }
     applyFilters();
   };
@@ -94,8 +127,25 @@ export default function Main() {
     ...cylinders.map((c) => ({ type: "cylinders", value: c })),
   ];
 
+  const FilterTags = () => (
+    <div className="flex gap-2 flex-wrap items-center">
+      {selectedFilters.map((filter, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-1 bg-[#323348] text-white text-[12px] px-[8px] py-[2px] rounded-[8px]"
+        >
+          <span>{filter.value}</span>
+          <button onClick={() => removeFilter(filter.type, filter.value)}>
+            <IoClose className="text-white text-sm hover:text-[#cdcdd0]" />
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="px-5">
+      {/* صندوق البحث */}
       <div className="searchBox bg-white w-full flex p-3 gap-2.5 items-center h-[49px] rounded-md shadow">
         <FaSearch className="text-[#cdcdcd] text-[20px]" />
         <input
@@ -107,31 +157,28 @@ export default function Main() {
         />
       </div>
 
+      {/* المسار */}
       <div className="flex gap-1 my-3 text-sm">
         <p className="text-[#797979]">Home /</p>
         <p className="text-[#797979]">Used /</p>
         <p className="text-[#0a0909] font-medium">Car</p>
       </div>
 
+      {/* عنوان الصفحة */}
       <p className="text-[22px] font-semibold leading-snug">
         Used 2020 BMW M2 Coupe 2D in Orange, CA
       </p>
 
+      {/* فلاتر وفرز */}
       <div className="flex justify-between items-center my-5 flex-row flex-wrap gap-3">
         <div className="flex gap-2 flex-wrap items-center">
           <p className="font-medium text-[12px]">Selected Filters:</p>
-
-          {selectedFilters.map((filter, index) => (
-            <div key={index} className="flex items-center gap-1 bg-[#323348] text-white text-[12px] px-[8px] py-[2px] rounded-[8px]">
-              <span>{filter.value}</span>
-              <button onClick={() => removeFilter(filter.type, filter.value)}>
-                <IoClose className="text-white text-sm hover:text-[#cdcdd0]" />
-              </button>
-            </div>
-          ))}
-
+          <FilterTags />
           {selectedFilters.length > 0 && (
-            <button onClick={clearAll} className="text-sm text-[#323348] hover:underline ml-2">
+            <button
+              onClick={clearAll}
+              className="text-sm text-[#323348] hover:underline ml-2"
+            >
               Clear All Filters
             </button>
           )}
@@ -166,14 +213,16 @@ export default function Main() {
         </div>
       </div>
 
+      {/* عرض السيارات */}
       <div className="flex gap-3 flex-wrap">
         {cars.length > 0 ? (
-          cars.map((car) => <Card key={car.id} car={car} />)
+          cars.map((car: Car) => <Card key={car.id} car={car} />)
         ) : (
           <p>No Cars Found</p>
         )}
       </div>
 
+      {/* القائمة الجانبية */}
       <PhonSide isOpen={isSideOpen} onClose={() => setIsSideOpen(false)} />
     </div>
   );
