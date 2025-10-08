@@ -54,12 +54,18 @@ export default function Card({ car, onFavoriteToggle, isFavorite }: CardProps) {
       {/* الصورة داخل إطار ثابت */}
       <Link href="/details">
         <div className="w-full h-[200px] relative">
-          <Image
-            src={car.image}
-            alt={car.model}
-            fill
-            className="object-cover"
-          />
+
+<div className="relative w-[336px] h-[200px]">
+  <Image
+    src={car.image}
+    alt={car.model}
+    fill
+    className="object-cover"
+  />
+</div>
+
+
+
         </div>
       </Link>
 

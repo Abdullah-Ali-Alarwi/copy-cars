@@ -1,5 +1,4 @@
 import LazyImage from "@/app/components/LazyImage";
-import Image from "next/image";
 import React from "react";
 
 export default function RecommendItem({

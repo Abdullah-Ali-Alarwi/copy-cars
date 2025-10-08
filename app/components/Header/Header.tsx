@@ -16,10 +16,10 @@ export default function Header() {
   // تحميل المفضلات عند بداية التطبيق
   useEffect(() => {
     loadFavorites();
-  }, []);
+  }, [loadFavorites]);
 
   const links = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "Search", href: "/search" },
     { name: "Account", href: "/account" },
     { name: "Details", href: "/details" },
@@ -30,11 +30,11 @@ export default function Header() {
 
   return (
     <>
-      {/* الهيدر */}
+     
       <nav className="fixed top-0 left-0 w-full bg-[color:var(--mainColor)] bg-opacity-50 border-b border-white z-50">
         <div className="container mx-auto flex items-center justify-between py-2 lg:py-4 px-4 lg:px-0">
-          {/* شعار الموقع */}
-          <Link href="/">
+          
+          <Link href="/home">
             <Image
               src="/images/logo.svg"
               alt="Logo"
@@ -44,7 +44,7 @@ export default function Header() {
             />
           </Link>
 
-          {/* زر القائمة للجوال */}
+       
           <div className="lg:hidden flex items-center">
             <button
               onClick={toggleMenu}
@@ -70,7 +70,6 @@ export default function Header() {
             </button>
           </div>
 
-          {/* روابط الديسكتوب */}
           <div className="hidden lg:flex items-center space-x-8">
             <ul className="flex space-x-4">
               {links.map((link) => (
@@ -84,7 +83,7 @@ export default function Header() {
               ))}
             </ul>
 
-            {/* أيقونة المفضلات */}
+    
             <div className="relative">
               <Link href="/favorite">
                 <Image
@@ -102,7 +101,7 @@ export default function Header() {
               )}
             </div>
 
-            {/* أزرار إضافية */}
+       
             <div className="flex space-x-4">
               <button className="hover:bg-white text-white border border-white hover:text-[color:var(--mainColor)] px-4 py-2 rounded">
                 For Dealers
@@ -121,7 +120,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* قائمة الجوال */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isOpen ? "max-h-[90vh]" : "max-h-0"
@@ -139,7 +137,7 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* أيقونة المفضلات */}
+   
             <div className="relative w-full flex justify-center mt-2">
               <Link href="/favorite">
                 <Image

@@ -17,7 +17,7 @@ export default function Card() {
             src="/images/BMW-M2-1.png"
             alt="BMW"
             fill
-            className="object-cover"
+                                                          className="object-cover"
           />
         </div>
       </Link>

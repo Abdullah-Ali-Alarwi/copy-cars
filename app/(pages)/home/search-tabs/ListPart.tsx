@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import WishListMoudle from './WishListMoudle';
-import Image from 'next/image';
 import LazyImage from '@/app/components/LazyImage';
 
 export default function ListPart() {
