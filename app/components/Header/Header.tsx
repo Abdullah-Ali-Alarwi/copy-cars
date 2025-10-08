@@ -137,7 +137,7 @@ export default function Header() {
               </Link>
             ))}
 
-   
+   git
             <div className="relative w-full flex justify-center mt-2">
               <Link href="/favorite">
                 <Image
